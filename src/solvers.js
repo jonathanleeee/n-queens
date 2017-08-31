@@ -84,6 +84,14 @@ window.findNQueensSolution = function(n) {
   var solutionCount = 0;
   var board = new Board ({'n' : n});
   var solution = [];
+
+  if (n === 2 || n === 3){
+    for (var i = 0; i < n; i++){
+      solution.push(board.get(i));
+    }
+    return solution;
+  }
+
   var x = 0;
   var y = 0;
   var recursive = function(x, y, queenCount) {
