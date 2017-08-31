@@ -198,7 +198,6 @@
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      debugger;
       var n = this.get('n');
       var x = (n - 1) * 2;
       var isConflicted;
