@@ -46,7 +46,6 @@ window.findNRooksSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n rooks placed such that none of them can attack each other
 window.countNRooksSolutions = function(n) {
-  debugger;
   var solutionCount = 0;
   var board = new Board ({'n' : n});
   var x = 0;
@@ -67,7 +66,7 @@ window.countNRooksSolutions = function(n) {
       if (board.hasAnyRooksConflicts()){
         board.get(y)[x] = 0;
         x++;
-      } else if (!board.hasAnyRooksConflicts()){
+      } else {
         recursive(x + 1, y, rookCount + 1);
         board.get(y)[x] = 0;
         x++;
@@ -82,7 +81,44 @@ window.countNRooksSolutions = function(n) {
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution = undefined; //fixme
+  var solutionCount = 0;
+  var board = new Board ({'n' : n});
+  var solution = [];
+  var x = 0;
+  var y = 0;
+  var recursive = function(x, y, queenCount) {
+    if (solutionCount === 1) {
+      return;
+    }
+    if (queenCount === n) {
+      solutionCount++;
+      for ( var i = 0; i < n; i++) {
+        solution.push(board.get(i));
+      }
+      return;
+    }
+
+    while (x <= n && y < n){
+      if (x === n ){
+        x = 0;
+        y++;
+      }
+      if (y === n) { break; }
+      board.get(y)[x] = 1;
+      if (board.hasAnyQueensConflicts()){
+        board.get(y)[x] = 0;
+        x++;
+      } else if (!board.hasAnyQueensConflicts()){
+        recursive(x + 1, y, queenCount + 1);
+        if (solutionCount === 1) {
+          return solution;
+        }
+        board.get(y)[x] = 0;
+        x++;
+      }
+    }
+  }
+  recursive(x, y, 0);
 
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
@@ -94,14 +130,14 @@ window.countNQueensSolutions = function(n) {
   var board = new Board ({'n' : n});
   var x = 0;
   var y = 0;
-  var recursive = function(x, y, rookCount) {
-    if (rookCount === n) {
+  var recursive = function(x, y, queenCount) {
+    if (queenCount === n) {
       solutionCount++;
       return;
     }
 
     while (x <= n && y < n){
-      if (x === n){
+      if (x === n ){
         x = 0;
         y++;
       }
@@ -111,7 +147,7 @@ window.countNQueensSolutions = function(n) {
         board.get(y)[x] = 0;
         x++;
       } else if (!board.hasAnyQueensConflicts()){
-        recursive(x + 1, y, rookCount + 1);
+        recursive(x + 1, y, queenCount + 1);
         board.get(y)[x] = 0;
         x++;
       }
