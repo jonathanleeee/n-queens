@@ -139,19 +139,20 @@
       var count = 0;
       var n = this.get('n');
       var columnIndex = majorDiagonalColumnIndexAtFirstRow;
+
       if (columnIndex < 0){
-        var x = Math.abs(columnIndex);
-        var y = 0;
-      } else {
+        var y = Math.abs(columnIndex);
         var x = 0;
-        var y = columnIndex;
+      } else {
+        var y = 0;
+        var x = columnIndex;
       }
 
-      while (x < n && y < n) {
-        count += this.get(x)[y];
+      while (y < n && x < n) {
+        count += this.get(y)[x];
         if (count > 1) { return true; }
-        x++;
         y++;
+        x++;
       }
       return false; // fixme
     },
@@ -159,7 +160,7 @@
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
       var n = this.get('n');
-      var x = (n * - 1) + 1;
+      var x = (n * - 1) + 2;
       var isConflicted;
       while (x < n){
         isConflicted = this.hasMajorDiagonalConflictAt(x);
@@ -188,7 +189,7 @@
       }
 
       while (x >= 0 && y < n) {
-        count += this.get(x)[y];
+        count += this.get(y)[x];
         if (count > 1) { return true; }
         x--;
         y++;
